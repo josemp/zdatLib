@@ -1,0 +1,6 @@
+tipoTabla: B
+versionTabla: 00.01
+name: zlStd
+directorios: zlLog.lib: zlTimer.lib: zlUtil.lib
+outputLibInstall: /usr/local/zdat/lib
+outputIncludeInstall: /usr/local/zdat/include

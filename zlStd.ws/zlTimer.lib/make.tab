@@ -1,0 +1,8 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlTimer
+fuentes: zlTimer.c
+includes: zlTimer.h
+outherDirInclude:
+includesForInstall:zlTimer.h
+

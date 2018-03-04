@@ -1,0 +1,9 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlLog
+fuentes: zlLog.c
+includes: zlLog.h: zlLogs.h
+outherDirInclude: 
+includesForInstall: zlLog.h
+outputLibInstall: prueba/lib
+outputIncludeInstall: prueba/include

@@ -1,0 +1,7 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlUtil
+fuentes: file2Buf.c:zlVarios.c
+includes: file2Buf.h:libUtil.h
+outherDirInclude: 
+includesForInstall: file2Buf.h:libUtil.h

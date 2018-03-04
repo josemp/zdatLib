@@ -1,0 +1,63 @@
+# NAME es el nombre de la libreria
+# EXCLUDE_INC los includes para distribucion, no incluidos en la compilacion
+# EXCLUDE_DIR los directorios no includos en la compilacion
+# rwilcard, recursiva lista de ficheros, primer parametro el path(formato paht/
+#                                        segundo los ficheros buscados
+
+NAME        ?= zlTimer
+EXCLUDE_INC := 
+INSTALL_DIR := bin
+EXCLUDE_DIR := $(INSTALL_DIR)
+INCLUDE_WS_PROJECTS := 
+OUTHER_DIR_INCLUDE :=
+
+
+CFLAGS = -I./dep $(INCLUDE_WS_PROJECTS:%=-I../%/bin) $(OUTHER_DIR_INCLUDE)
+
+rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+
+LIBRARY_NAME := lib$(NAME).a
+LIBRARY_PATH := $(INSTALL_DIR)/lib$(NAME).a
+FUENTES      := $(filter-out $(EXCLUDE_DIR:%=%%),$(call rwildcard, , *.c))
+OBJETOS      := $(FUENTES:%.c=%.o)
+INCLUDES := $(filter-out $(EXCLUDE_DIR:%=%%),$(call rwildcard, ,*.h))
+INCLUDES_INST     := $(filter-out $(EXCLUDE_INC),$(INCLUDES))
+INCLUDES_BIN := $(patsubst %,$(INSTALL_DIR)/%, $(notdir $(INCLUDES_INST)))
+OBJETOS_BIN := $(patsubst %,$(INSTALL_DIR)/%, $(notdir $(OBJETOS)))
+
+INCLUDES_INSTALL := $(INCLUDES_INST:%.h=install-%)
+
+all: $(OBJETOS) $(LIBRARY_PATH) $(INCLUDES_BIN) $(OBJETOS_BIN)
+
+$(OBJETOS):$(INCLUDES)
+
+
+#$(LIBRARY_NAME): lib.a($(OBJETOS))
+
+$(LIBRARY_PATH): $(OBJETOS)
+	- rm -f $(LIBRARY_PATH)
+	ar -rf $@ $^
+$(INCLUDES_BIN):$(INCLUDES_INST)
+	cp $^ bin
+
+$(OBJETOS_BIN):$(OBJETOS)
+	cp $^ bin
+
+include:$(INCLUDES_BIN)
+	#ocp $^ bin
+	@echo $^
+
+install: $(INCLUDES_INSTALL)
+
+
+$(INCLUDES_INSTALL):
+	cp $(INSTALL_DIR)/$(@:install-%=%.h) $(DIR_INSTALL_INCLUDE)
+
+	
+clean:
+	- rm -f $(OBJETOS) $(LIBRARY_PATH) $(INCLUDES_BIN)
+pinta:
+	@echo $(INCLUDES)
+	@echo $(INCLUDES_BIN)
+	@echo $(INCLUDES_INST)
+
