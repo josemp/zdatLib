@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <libgen.h>
 
 int limpiaIniciales(char *buf ,int len)
 {
@@ -103,3 +104,25 @@ int limpiaBuffer(char *buf,int len)
  ret=limpiaFinales(buf,lenp);
  return(ret);
 }
+
+
+
+/* En estas funciones aux tiene que estar inicializado */
+
+char *zDirname(char *path,char *aux)
+{
+char *pathCopia = strdup(path);
+strcpy(aux,dirname(pathCopia));
+free(pathCopia);
+return(aux);
+
+}
+char *zBasename(char *path,char *aux)
+{
+char *pathCopia = strdup(path);
+strcpy(aux,basename(pathCopia));
+free(pathCopia);
+return(aux);
+
+}
+
