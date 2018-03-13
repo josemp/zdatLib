@@ -6,8 +6,15 @@
  * Author:          I.A.Tidder, 12.01.94
  *  
  *********************************************************************/
-
+#include <stdio.h>
+#define __USE_XOPEN
+#include <time.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <memory.h>
 #include "zlTimer.h"
+
 /*
 **
 ** FUNCTIONAL DESCRIPTION:
@@ -233,4 +240,22 @@ mi=atoi(aux);
 sprintf(aux,"%.2s",hora+4);
 se=atoi(aux);
 return(ho*60*60+mi*60+se);
+}
+
+struct tm  *tmFecha(char *fecha,char *formatFecha, char *hora,char *formatHora,struct tm *ltm)
+{
+char fechaHora[200]; // supongo bastante
+char format[200];
+sprintf(fechaHora,"%s %s",fecha,hora);
+sprintf(format,"%s %s",formatFecha,formatHora);
+// Obligatorio inicializarla
+memset(ltm, 0, sizeof(struct tm));
+strptime(fechaHora, format, ltm);
+return(ltm);
+}
+time_t timeFecha(char *fecha,char *formatFecha, char *hora,char *formatHora)
+{
+struct tm ltm;
+tmFecha(fecha,formatFecha,hora,formatHora,&ltm);
+return(mktime(&ltm));
 }
