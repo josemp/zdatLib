@@ -1,6 +1,7 @@
 tipoTabla: B
 versionTabla: 00.01
 name: zlStd
+includesForInstall: zlStd.h:zlStdComun.h
 directorios: zlLog.lib: zlTimer.lib: zlUtil.lib
 outputLibInstall: /usr/local/zdat/lib
 outputIncludeInstall: /usr/local/zdat/include

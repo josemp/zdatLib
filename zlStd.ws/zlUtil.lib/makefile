@@ -6,13 +6,13 @@ NAME    := zlUtil
 
 FUENTES  :=  file2Buf.c zlVarios.c
 
-INCLUDES := file2Buf.h libUtil.h
+INCLUDES := file2Buf.h zlUtil.h
 
 # directorios de includes externos
 
 OUTHER_DIR_INCLUDE :=
 
-INCLUDES_FOR_INSTALL:= file2Buf.h libUtil.h
+INCLUDES_FOR_INSTALL:= file2Buf.h zlUtil.h
 
 # install directorios
 
@@ -34,7 +34,7 @@ $(OBJETOS):$(FUENTEOS) $(INCLUDES)
 
 $(LIBRARY_NAME): $(OBJETOS)
 	- rm -f $(LIBRARY_NAME)
-	 tar -rf $@ $^
+	 ar -rf $@ $^
 
 clean:
 	 - rm -f $(OBJETOS) $(LIBRARY_NAME)
@@ -43,3 +43,5 @@ install:
 	- mkdir -p $(OUTPUT_INCLUDE_INSTALL)
 	cp $(LIBRARY_NAME) $(OUTPUT_LIB_INSTALL)
 	cp $(INCLUDES_FOR_INSTALL) $(OUTPUT_INCLUDE_INSTALL)
+
+test: $(LIBRARY_NAME)

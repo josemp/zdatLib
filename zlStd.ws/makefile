@@ -7,7 +7,7 @@ LIBRARY_NAME := lib$(NAME).a
 
 OBJETOS  :=  zlLog.lib/zlLog.o zlTimer.lib/zlTimer.o zlUtil.lib/file2Buf.o zlUtil.lib/zlVarios.o
 
-INCLUDES  :=  zlLog.lib/zlLog.h zlTimer.lib/zlTimer.h zlUtil.lib/file2Buf.h zlUtil.lib/libUtil.h
+INCLUDES  :=  zlLog.lib/zlLog.h zlTimer.lib/zlTimer.h zlUtil.lib/file2Buf.h zlUtil.lib/zlUtil.h zlStd.h zlStdComun.h
 
 
 # install directorios
