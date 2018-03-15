@@ -1,0 +1,9 @@
+tipoTabla: 1
+versionTabla: 00.01
+name: test1
+fuentes: test1.c
+includes: 
+proyectos: .
+outherDirInclude: 
+outherDirLib: 
+outherLibs: 
