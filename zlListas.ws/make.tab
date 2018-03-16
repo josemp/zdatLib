@@ -1,0 +1,7 @@
+tipoTabla: B
+versionTabla: 00.01
+name: zlListas
+includesForInstall: 
+directorios: zlLista1.lib
+outputLibInstall: /usr/local/zdat/lib
+outputIncludeInstall: /usr/local/zdat/include

@@ -1,0 +1,17 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlLista1
+#Lista1 de fuentes
+fuentes: zlLista1.c
+#Lista1 de includes
+includes: zlLista1.h
+#Lista1 de directorios de proyectos dependientes
+proyectos: 
+#Lista1 de otros includes
+outherDirInclude: 
+#Lista1 de includes para instalar
+includesForInstall: 
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista1 de files *.tab que compila test
+test: makeTest1.tab
