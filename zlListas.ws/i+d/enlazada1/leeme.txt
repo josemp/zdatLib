@@ -1,0 +1,1 @@
+ejemplo tomado de http://es.ccm.net/faq/2842-la-lista-enlazada-simple
