@@ -1,0 +1,8 @@
+tipoTabla: 1
+versionTabla: 00.01
+name: testSocket
+fuentes: testCliente1.c:  testServer1.c : testSocketMain.c
+includes: 
+outherDirInclude: .. :../../zlEvtTimer.lib: /usr/local/zdat/include
+outherDirLib: ..:../../zlEvtTimer.lib:  /usr/local/zdat/lib
+outherLibs: -lzlEvtSocket -lzlEvtTimer -lzlStd -levent

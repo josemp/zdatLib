@@ -1,0 +1,10 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlEvtTimer
+fuentes: zlEvtTimer.c
+includes: zlEvtTimer.h
+outherDirInclude: /usr/local/zdat/include
+includesForInstall: zlEvtTimer.h
+outputLibInstall: 
+outputIncludeInstall: 
+

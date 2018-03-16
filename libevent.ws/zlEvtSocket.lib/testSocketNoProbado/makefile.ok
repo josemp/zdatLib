@@ -1,0 +1,56 @@
+
+# para instalar ->  make install DIR_INSTALL=../bin
+#DIR_INSTALL:=/home/concn/prueba
+PREFIJO:=pruc_
+FUENTES_MAIN= testSocketClient.c
+OUTPUT_DIR := bin
+EXCLUDE_DIR := $(OUTPUT_DIR) dep
+INCLUDE_WS_PROJECTS :=  zlEvtSockCli.lib zlEvtSocket.lib zlEvtTimer.lib zlEvtMain.lib  
+
+
+OUTHER_DIR_LIB := /usr/local/zl/lib
+OUTHER_DIR_INCLUDE :=  /usr/local/zl/include
+OUTHER_LIBS := /usr/local/lib/libevent.a -lrt -lzlStd
+
+
+
+
+
+CFLAGS = -I./dep $(INCLUDE_WS_PROJECTS:%=-I../%/bin) $(OUTHER_DIR_INCLUDE:%=-I%)
+LDFLAGS = -L./dep $(INCLUDE_WS_PROJECTS:%=-L../%/bin) -L$(OUTHER_DIR_LIB)
+LDLIBS = $(foreach dir,$(INCLUDE_WS_PROJECTS),$(patsubst ../$(dir)/bin/lib%.a,-l%, $(wildcard ../$(dir)/bin/lib*.a))) $(OUTHER_LIBS)
+
+
+rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+
+OUTPUT_MAIN=$(FUENTES_MAIN:%.c=%)
+
+MAIN_INSTALL := $(OUTPUT_MAIN:%=install-%)
+
+FUENTES_OBJ := $(filter-out $(FUENTES_MAIN),$(filter-out $(EXCLUDE_DIR:%=%%),$(call rwildcard, , *.c)))
+
+OBJETOS := $(FUENTES_OBJ:%.c=%.o)
+# no quites los del bin, puesto que puede que los usemos
+INCLUDES  := $(call rwildcard, ,*.h)
+
+BINARIOS_OUT := $(patsubst %,$(OUTPUT_DIR)/%, $(notdir $(OUTPUT_MAIN)))
+
+all: $(OBJETOS) $(OUTPUT_MAIN) $(BINARIOS_OUT)
+
+$(OBJETOS):%.o:%.c $(INCLUDES)
+
+$(OUTPUT_MAIN):%: %.c  $(OBJETOS)
+
+$(BINARIOS_OUT): $(OUTPUT_MAIN)
+	cp $^ $(OUTPUT_DIR)
+clean:
+	- rm -f $(OBJETOS) $(OUTPUT_MAIN) $(BINARIOS_OUT)
+install: $(MAIN_INSTALL)
+$(MAIN_INSTALL):
+	cp $(OUTPUT_DIR)/$(@:install-%=%) $(DIR_INSTALL)/$(PREFIJO)$(@:install-%=%)
+
+
+cosa:
+	@echo $(OUTPUT_MAIN)
+	@echo  $(notdir $(OUTPUT_MAIN))
+	@echo $(LDLIBS)
