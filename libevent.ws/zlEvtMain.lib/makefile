@@ -12,7 +12,7 @@ INCLUDES := zlEventMain.h
 
 OUTHER_DIR_INCLUDE := /usr/local/zdat/include
 
-INCLUDES_FOR_INSTALL:=
+INCLUDES_FOR_INSTALL:= zlEventMain.h
 
 # install directorios
 

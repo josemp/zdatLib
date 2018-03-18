@@ -7,7 +7,7 @@ LIBRARY_NAME := lib$(NAME).a
 
 OBJETOS  :=  zlEvtMain.lib/zlEventMain.o zlEvtSockCli.lib/zlSocketClient.o zlEvtSocket.lib/zlEvtSocket.o zlEvtSocket.lib/zlEvtSocketList.o zlEvtSocket.lib/zlEvtSocketServer.o zlEvtSockSer.lib/zlEvtSockSer.o zlEvtSockSer.lib/zlEvtSockSerConexion.o zlEvtSockSer.lib/zlEvtSockSerConexionItem.o zlEvtTimer.lib/zlEvtTimer.o
 
-INCLUDES  :=  zlEvtSockCli.lib/zlSocketClient.h zlEvtSocket.lib/zlEvtSocket.h zlEvtSocket.lib/zlEvtSocketList.h zlEvtSocket.lib/zlEvtSocketServer.h zlEvtSockSer.lib/zlEvtSockSer.h zlEvtSockSer.lib/zlEvtSockSerConexion.h zlEvtSockSer.lib/zlEvtSockSerConexionItem.h zlEvtTimer.lib/zlEvtTimer.h
+INCLUDES  :=  zlEvtMain.lib/zlEventMain.h zlEvtSockCli.lib/zlSocketClient.h zlEvtSocket.lib/zlEvtSocket.h zlEvtSocket.lib/zlEvtSocketList.h zlEvtSocket.lib/zlEvtSocketServer.h zlEvtSockSer.lib/zlEvtSockSer.h zlEvtSockSer.lib/zlEvtSockSerConexion.h zlEvtSockSer.lib/zlEvtSockSerConexionItem.h zlEvtTimer.lib/zlEvtTimer.h
 
 
 # install directorios

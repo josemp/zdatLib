@@ -10,7 +10,7 @@ proyectos:
 #Lista de otros includes
 outherDirInclude: /usr/local/zdat/include
 #Lista de includes para instalar
-includesForInstall: 
+includesForInstall: zlEventMain.h
 outputLibInstall: 
 outputIncludeInstall: 
 #Lista de files *.tab que compila test

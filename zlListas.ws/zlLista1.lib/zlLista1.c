@@ -1,6 +1,6 @@
 /**
-  @file leeMetaTab.c
-  @brief Lectura de ficheros meta de configuracion z
+  @file zlLista1.c
+  @brief Lista de recursos de longitud fija            
   @author Jose Miguel Parra
   @date 8/2017
   
