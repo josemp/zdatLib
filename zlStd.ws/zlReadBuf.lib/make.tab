@@ -1,0 +1,17 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlBufRead
+#Lista de fuentes
+fuentes: zlBufRead.c
+#Lista de includes
+includes: zlBufRead.h
+#Lista de directorios de proyectos dependientes
+proyectos: .. 
+#Lista de otros includes
+outherDirInclude: 
+#Lista de includes para instalar
+includesForInstall: zlBufRead.h
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista de files *.tab que compila test
+test: makeTest1.tab

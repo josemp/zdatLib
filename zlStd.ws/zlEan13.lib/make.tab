@@ -1,0 +1,17 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlEan13
+#Lista de fuentes
+fuentes: zlEan13.c
+#Lista de includes
+includes: zlEan13.h
+#Lista de directorios de proyectos dependientes
+proyectos: 
+#Lista de otros includes
+outherDirInclude: ..
+#Lista de includes para instalar
+includesForInstall: zlEan13.h
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista de files *.tab que compila test
+test: makeTest1.tab
