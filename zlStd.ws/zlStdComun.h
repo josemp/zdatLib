@@ -1,1 +1,1 @@
-typedef enum {false=0,true=1} bool_t;
+typedef enum {zlFalse=0,zlTrue=1} zlBool_t;
