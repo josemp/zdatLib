@@ -4,5 +4,5 @@ name: zlUtil
 fuentes: file2Buf.c:zlVarios.c:zlValidIpv4.c:zlHostbyName.c
 includes: file2Buf.h:zlUtil.h:zlValidIpv4.h:zlHostbyName.h
 outherDirInclude: ..
-includesForInstall: file2Buf.h:zlUtil.h
+includesForInstall: file2Buf.h:zlUtil.h:zlHostbyName.h:zlValidIpv4.h
 test: makeTestIp.tab:makeTestHostbyName.tab

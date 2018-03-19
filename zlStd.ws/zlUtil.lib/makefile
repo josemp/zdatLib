@@ -12,7 +12,7 @@ INCLUDES := file2Buf.h zlUtil.h zlValidIpv4.h zlHostbyName.h
 
 OUTHER_DIR_INCLUDE := ..
 
-INCLUDES_FOR_INSTALL:= file2Buf.h zlUtil.h
+INCLUDES_FOR_INSTALL:= file2Buf.h zlUtil.h zlHostbyName.h zlValidIpv4.h
 
 # install directorios
 

@@ -10,7 +10,7 @@ proyectos:
 #Lista de otros includes
 outherDirInclude: 
 #Lista de includes para instalar
-includesForInstall: 
+includesForInstall: zlDir.h
 outputLibInstall: 
 outputIncludeInstall: 
 #Lista de files *.tab que compila test
