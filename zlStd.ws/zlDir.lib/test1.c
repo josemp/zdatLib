@@ -12,7 +12,8 @@
 int main()
 {
 
- zlDir_t *zlDir=zlDirFor("./","*.c");
+// No hacer match==NULL, porque no es un puntero dejarlo en 0 ,""
+ zlDir_t *zlDir=zlDirFor("/home/concn/pedidosLaboratorio/laboratorios/lab1/Pendientes/","*.ped");
 
  if (zlDir==NULL)
   {printf("Error leyendo Directorio\n");return(0);}

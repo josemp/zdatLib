@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <fcntl.h>
 #include <fnmatch.h>
@@ -28,10 +29,20 @@ if (S_ISDIR(st.st_mode))
 return(0);
 
 }
+
+// El path puede ser terminado en '/' o no, como queramos
 tipoFile_t zlDirTipoFichero1(char *path,char *file)
 {
 char pathCompleto[MIDIR_MAX_FILE_LEN + MIDIR_MAX_FILE_PATH +1 ];
-sprintf(pathCompleto,"%s%s",path,file);
+if (strlen(path)==0)
+   sprintf(pathCompleto,"%s",file);
+else 
+{
+    if (path[strlen(path)-1]=='/')
+    sprintf(pathCompleto,"%s%s",path,file);
+    else
+    sprintf(pathCompleto,"%s/%s",path,file);
+}
 return(zlDirTipoFichero(pathCompleto));
 }
 
@@ -91,18 +102,22 @@ while(1)
       zlDirClose(zlDir);
       return(NULL);
      }
-
+/*
    if (dp->d_name[0]=='.')
      {
-      continue;/* Pasa de estos */
+        printf("borra con punto <%s>\n",dp->d_name);
+      continue;// Pasa de estos 
      }
+*/
    tipoFile=zlDirTipoFichero1(zlDir->path,dp->d_name);
    if (tipoFile != tipoFileRegular)
        {
        continue;/* no son ficheros normales */
        }
-   if ( zlDir->match!=NULL && strlen(zlDir->match) != 0 )
+   // atencion, match jamas es NULL, pues no es un puntero
+   if ( strlen(zlDir->match) != 0 )
      {
+      
       ret=fnmatch(zlDir->match,dp->d_name,0);
       if (ret!=0)
        {
@@ -129,7 +144,10 @@ while(1)
    entry = readdir( dir );
    if (entry==NULL) break;
    if (strcmp(recurso,entry->d_name)!=0) continue;
-   sprintf(pathCompleto,"%s/%s",directorio,entry->d_name);
+   if (strlen(directorio)==0 || directorio[strlen(directorio)-1]=='/')
+      sprintf(pathCompleto,"%s%s",directorio,entry->d_name);
+   else
+      sprintf(pathCompleto,"%s/%s",directorio,entry->d_name);
    tipoFile= zlDirTipoFichero(pathCompleto);
    if (tipoFile>0 && tipo==tipoFile)
       {
