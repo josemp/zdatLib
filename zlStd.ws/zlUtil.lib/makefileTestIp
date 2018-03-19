@@ -1,0 +1,37 @@
+# output program
+
+NAME    := testIp
+
+# fuentes e includes del proyecto
+
+FUENTES  :=  testIp.c
+
+INCLUDES :=
+
+# directorios de includes externos
+
+OUTHER_DIR_INCLUDE := . ..
+
+OUTHER_DIR_LIB:= .
+
+# librerias utilizadas
+
+OUTHER_LIBS:=  -lzlUtil
+DEPEND_LIBS:=  ./libzlUtil.a
+
+# variables intermedias
+
+CFLAGS = $(OUTHER_DIR_INCLUDE:%=-I%)
+LDFLAGS = $(OUTHER_DIR_LIB:%=-L%)
+LDLIBS =     $(OUTHER_LIBS)
+OBJETOS      := $(FUENTES:%.c=%.o)
+
+# -------- RULES ------------------
+
+all: $(NAME)
+$(OBJETOS):$(FUENTES) $(INCLUDES) $(DEPEND_LIBS)
+$(NAME): $(OBJETOS)
+	$(CC) $(LDFLAGS)  $(OBJETOS) $(LDLIBS) -o $(NAME)
+
+clean:
+	 - rm -f $(OBJETOS) $(NAME)

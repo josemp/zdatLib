@@ -4,13 +4,13 @@ NAME    := zlUtil
 
 # fuentes e includes del proyecto
 
-FUENTES  :=  file2Buf.c zlVarios.c
+FUENTES  :=  file2Buf.c zlVarios.c zlValidIpv4.c
 
 INCLUDES := file2Buf.h zlUtil.h
 
 # directorios de includes externos
 
-OUTHER_DIR_INCLUDE :=
+OUTHER_DIR_INCLUDE := ..
 
 INCLUDES_FOR_INSTALL:= file2Buf.h zlUtil.h
 
@@ -38,6 +38,7 @@ $(LIBRARY_NAME): $(OBJETOS)
 
 clean:
 	 - rm -f $(OBJETOS) $(LIBRARY_NAME)
+	make -C . -f makefileTestIp clean
 install:
 	- mkdir -p $(OUTPUT_LIB_INSTALL)
 	- mkdir -p $(OUTPUT_INCLUDE_INSTALL)
@@ -45,3 +46,4 @@ install:
 	cp $(INCLUDES_FOR_INSTALL) $(OUTPUT_INCLUDE_INSTALL)
 
 test: $(LIBRARY_NAME)
+	make -C . -f makefileTestIp

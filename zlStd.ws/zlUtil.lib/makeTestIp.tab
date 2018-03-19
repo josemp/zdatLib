@@ -1,0 +1,15 @@
+tipoTabla: 1
+versionTabla: 00.01
+name: testIp
+#Lista de fuentes
+fuentes: testIp.c
+#Lista de includes
+includes: 
+#Lista de proyectos dependientes
+proyectos: .
+#Lista de otros includes
+outherDirInclude: ..
+#Lista de otros Dir de libreria
+outherDirLib: 
+#Lista de otras librerias
+outherLibs: 

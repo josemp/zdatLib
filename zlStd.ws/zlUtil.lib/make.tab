@@ -1,7 +1,8 @@
 tipoTabla: 2
 versionTabla: 00.01
 name: zlUtil
-fuentes: file2Buf.c:zlVarios.c
-includes: file2Buf.h:zlUtil.h
-outherDirInclude: 
+fuentes: file2Buf.c:zlVarios.c:zlValidIpv4.c
+includes: file2Buf.h:zlUtil.h:zlValidIpv4.h
+outherDirInclude: ..
 includesForInstall: file2Buf.h:zlUtil.h
+test: makeTestIp.tab
