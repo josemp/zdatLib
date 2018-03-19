@@ -1,5 +1,6 @@
 #include "file2Buf.h"
 #include "zlValidIpv4.h"
+#include "zlHostbyName.h"
 
 long atolm(char *buf,int len);
 
