@@ -143,7 +143,7 @@ void timestamp(char *fecha,char *hora)
                                tiempos->tm_mon+1,
                                tiempos->tm_mday);
 }
-
+//typedef enum {ztSec=0,ztMin,ztHor,ztDia,ztMes,ztAto,ztSem,ztDto} zTime_t;
 /* ------------------------------------------------------------------ */
 /* --- PROYMAN           - Departamento Analisis y Programacion.  --- */
 /* ---                   Sistema Operativo SCO                    --- */
@@ -171,9 +171,38 @@ void timestamp(char *fecha,char *hora)
 
 #include <time.h>
 
-int zlTimerDat(x)
+int zlTimerDat0(struct tm *st,zTime_t x)
+{
+   switch (x)
+      {
+      case ztSec:
+         return(st->tm_sec);                              /* segundos */
+      case ztMin:
+         return(st->tm_min);                               /* minutos */
+      case ztHor:
+         return(st->tm_hour);                                 /* hora */
+      case ztDia:
+         return(st->tm_mday);                                  /* dia */
+      case ztMes:
+         return(++st->tm_mon);                                 /* mes */
+      case ztAto:
+         return((st->tm_year)%100);                            /* a\o */
+      case ztSem:
+         return(st->tm_wday);                           /* dia semana */
+      case ztDto:
+         return(++st->tm_yday);                            /* dia a\o */
+      default:
+         return(-1);
+      };
 
-int x;
+}
+int zlTimerDat1(long t,zTime_t x)
+{
+   struct tm *st;
+   st=localtime(&t);
+  return zlTimerDat0(st,x);
+}
+int zlTimerDat(zTime_t x)
 {
    long      t;
    long      *pt;
@@ -181,28 +210,7 @@ int x;
 
    t=time((long) 0);
    st=localtime(&t);
-
-   switch (x)
-      {
-      case 0:
-         return(st->tm_sec);                              /* segundos */
-      case 1:
-         return(st->tm_min);                               /* minutos */
-      case 2:
-         return(st->tm_hour);                                 /* hora */
-      case 3:
-         return(st->tm_mday);                                  /* dia */
-      case 4:
-         return(++st->tm_mon);                                 /* mes */
-      case 5:
-         return((st->tm_year)%100);                            /* a\o */
-      case 6:
-         return(st->tm_wday);                           /* dia semana */
-      case 7:
-         return(++st->tm_yday);                            /* dia a\o */
-      default:
-         return(-1);
-      };
+  return zlTimerDat0(st,x);
 }
 void zlTimerRestaDias(int numDias,int *dia,int *mes,int *ato)
 {

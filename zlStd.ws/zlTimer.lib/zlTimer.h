@@ -5,12 +5,27 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <stdlib.h>
-
 typedef struct 
 {
 long Timeout;
 struct timeval StartTimer;
 } Temporizador_t;
+
+
+/*  Ayuda. Como sacar los datos de la fecha actual:
+//
+//   long t=time((long) 0);
+//  struct tm *st=localtime(&t);
+*/
+
+// Para sacar contenido de la estructura tm Segundios,minutos,horas,dia,mes ,ato,dia semana, dia del ato
+typedef enum {ztSec=0,ztMin,ztHor,ztDia,ztMes,ztAto,ztSem,ztDto} zTime_t;
+
+int zlTimerDat0(struct tm *st,zTime_t x);
+int zlTimerDat1(long t,zTime_t x);
+// Del dia actual
+int zlTimerDat(zTime_t x);
+
 
 void StartTimer(Temporizador_t *timer, long timeout);
 int TimedOut(Temporizador_t *timer);
