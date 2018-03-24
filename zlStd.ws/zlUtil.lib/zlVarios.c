@@ -105,6 +105,19 @@ int limpiaBuffer(char *buf,int len)
  return(ret);
 }
 
+// El campo ha de tener menor o igual tamaño que len
+// Campo ha de acabar con longitud len
+char *padCerosIzquierda(char *campo,int len)
+{
+ if (strlen(campo)>=len) return(campo);
+ char *aux=malloc(len+1);
+ memset(aux,0,len+1);
+ memset(aux,'0',len);
+ memcpy(aux+len-strlen(campo),campo,strlen(campo));
+ strcpy(campo,aux);
+ free(aux);
+ return(campo);
+}
 
 
 /* En estas funciones aux tiene que estar inicializado */

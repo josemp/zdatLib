@@ -20,4 +20,4 @@ printf("<%s><%s><%s>\n",path,dir,file);
 /* Para recoger el directorio y fichero de un path hago estas funciones*/
 char *zDirname(char *path,char *aux);
 char *zBasename(char *path,char *aux);
-
+char *padCerosIzquierda(char *campo,int len);
