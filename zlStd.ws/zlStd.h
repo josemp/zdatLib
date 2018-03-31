@@ -1,3 +1,4 @@
+#include <dirent.h>
 #include <zlStdComun.h>
 #include <zlLog.h>
 #include <zlUtil.h>
