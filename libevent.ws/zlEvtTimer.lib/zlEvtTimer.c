@@ -62,7 +62,7 @@ void *zlEventSelfPuntero()
  /* Callback interno para manejar el evento */
 static void zlEvtTimerInterno_cb(evutil_socket_t fd, short what, void *arg)
 {
-	LogW(9,"Entrando en callbackInterno normal\n");
+	LogW(9,"Lanzando timer \n");
   zlEvtTimer_t *defered = arg;
   defered->function(defered->tag);
   
@@ -79,7 +79,7 @@ static void zlEvtTimerInterno_cb(evutil_socket_t fd, short what, void *arg)
 
 static void zlEvtTimerInternoFree_cb(evutil_socket_t fd, short what, void *arg)
 {
-	LogW(9,"Entrando en callbackInterno Liberador\n");
+	LogW(9,"liberando timer\n");
 	
   zlEvtTimer_t *defered = arg;
   defered->function(defered->tag);

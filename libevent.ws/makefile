@@ -5,9 +5,9 @@ LIBRARY_NAME := lib$(NAME).a
 
 # Lista de objetos e includes del proyecto
 
-OBJETOS  :=  zlEvtMain.lib/zlEventMain.o zlEvtSockCli.lib/zlSocketClient.o zlEvtSocket.lib/zlEvtSocket.o zlEvtSocket.lib/zlEvtSocketList.o zlEvtSocket.lib/zlEvtSocketServer.o zlEvtSockSer.lib/zlEvtSockSer.o zlEvtSockSer.lib/zlEvtSockSerConexion.o zlEvtSockSer.lib/zlEvtSockSerConexionItem.o zlEvtTimer.lib/zlEvtTimer.o
+OBJETOS  :=  zlEvtMain.lib/zlEventMain.o zlEvtSocket.lib/zlEvtServer.o zlEvtSocket.lib/zlEvtSocketComun.o zlEvtTimer.lib/zlEvtTimer.o
 
-INCLUDES  :=  zlEvtMain.lib/zlEventMain.h zlEvtSockCli.lib/zlSocketClient.h zlEvtSocket.lib/zlEvtSocket.h zlEvtSocket.lib/zlEvtSocketList.h zlEvtSocket.lib/zlEvtSocketServer.h zlEvtSockSer.lib/zlEvtSockSer.h zlEvtSockSer.lib/zlEvtSockSerConexion.h zlEvtSockSer.lib/zlEvtSockSerConexionItem.h zlEvtTimer.lib/zlEvtTimer.h
+INCLUDES  :=  zlEvtMain.lib/zlEventMain.h zlEvtSocket.lib/zlEvtServer.h zlEvtSocket.lib/zlEvtSocketComun.h zlEvtTimer.lib/zlEvtTimer.h zlEvt.h
 
 
 # install directorios
@@ -25,16 +25,12 @@ $(LIBRARY_NAME): $(OBJETOS)
 
 compila:
 	$(MAKE) -C zlEvtMain.lib
-	$(MAKE) -C zlEvtSockCli.lib
 	$(MAKE) -C zlEvtSocket.lib
-	$(MAKE) -C zlEvtSockSer.lib
 	$(MAKE) -C zlEvtTimer.lib
 
 clean:
 	$(MAKE) -C zlEvtMain.lib clean
-	$(MAKE) -C zlEvtSockCli.lib clean
 	$(MAKE) -C zlEvtSocket.lib clean
-	$(MAKE) -C zlEvtSockSer.lib clean
 	$(MAKE) -C zlEvtTimer.lib clean
 install:
 	- mkdir -p $(OUTPUT_LIB_INSTALL)

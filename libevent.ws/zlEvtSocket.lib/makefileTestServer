@@ -1,23 +1,23 @@
 # output program
 
-NAME    := test1
+NAME    := testServer
 
 # fuentes e includes del proyecto
 
-FUENTES  :=  test1.c
+FUENTES  :=  testServer.c
 
 INCLUDES :=
 
 # directorios de includes externos
 
-OUTHER_DIR_INCLUDE := . /usr/local/zdat/include ../zlEvtTimer.lib ../zlEvtMain.lib
+OUTHER_DIR_INCLUDE := . ../zlEvtMain.lib ../zlEvtTimer.lib /usr/local/zdat/include
 
-OUTHER_DIR_LIB:= . /usr/local/zdat/lib ../zlEvtTimer.lib ../zlEvtMain.lib
+OUTHER_DIR_LIB:= . ../zlEvtMain.lib ../zlEvtTimer.lib /usr/local/zdat/lib
 
 # librerias utilizadas
 
-OUTHER_LIBS:=  -lzlEvtSockCli -lzlEvtTimer -lzlEvtMain -lzlStd -levent
-DEPEND_LIBS:= 
+OUTHER_LIBS:=  -lzlEvtServer -lzlEvtMain -lzlEvtTimer -lzlStd -levent
+DEPEND_LIBS:=  ./libzlEvtServer.a ../zlEvtMain.lib/libzlEvtMain.a ../zlEvtTimer.lib/libzlEvtTimer.a
 
 # variables intermedias
 

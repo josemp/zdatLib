@@ -1,18 +1,18 @@
 # output libreria
 
-NAME    := zlEvtSocket
+NAME    := zlEvtServer
 
 # fuentes e includes del proyecto
 
-FUENTES  :=  zlEvtSocket.c zlEvtSocketList.c zlEvtSocketServer.c
+FUENTES  :=  zlEvtServer.c zlEvtSocketComun.c
 
-INCLUDES := zlEvtSocket.h zlEvtSocketList.h zlEvtSocketServer.h
+INCLUDES := zlEvtServer.h zlEvtSocketComun.h
 
 # directorios de includes externos
 
-OUTHER_DIR_INCLUDE := /usr/local/zdat/include
+OUTHER_DIR_INCLUDE := ../zlEvtTimer.lib /usr/local/zdat/include
 
-INCLUDES_FOR_INSTALL:= zlEvtSocket.h zlEvtSocketList.h zlEvtSocketServer.h
+INCLUDES_FOR_INSTALL:= zlEvtServer.h zlEvtSocketComun.h
 
 # install directorios
 
@@ -30,7 +30,7 @@ OBJETOS      := $(FUENTES:%.c=%.o)
 # -------- RULES ------------------
 
 all: $(LIBRARY_NAME)
-$(OBJETOS):$(FUENTEOS) $(INCLUDES)
+$(OBJETOS):$(FUENTES) $(INCLUDES)
 
 $(LIBRARY_NAME): $(OBJETOS)
 	- rm -f $(LIBRARY_NAME)
@@ -38,12 +38,14 @@ $(LIBRARY_NAME): $(OBJETOS)
 
 clean:
 	 - rm -f $(OBJETOS) $(LIBRARY_NAME)
-	make -C testSocketNoProbado clean
+	make -C . -f makefileTestServer clean
+	make -C . -f makefileTestClient clean
 install:
 	- mkdir -p $(OUTPUT_LIB_INSTALL)
 	- mkdir -p $(OUTPUT_INCLUDE_INSTALL)
 	cp $(LIBRARY_NAME) $(OUTPUT_LIB_INSTALL)
 	cp $(INCLUDES_FOR_INSTALL) $(OUTPUT_INCLUDE_INSTALL)
 
-test:
-	make -C testSocketNoProbado
+test: $(LIBRARY_NAME)
+	make -C . -f makefileTestServer
+	make -C . -f makefileTestClient

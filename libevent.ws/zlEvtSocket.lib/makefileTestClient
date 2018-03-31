@@ -1,22 +1,23 @@
 # output program
 
-NAME    := testSocket
+NAME    := testClient
 
 # fuentes e includes del proyecto
 
-FUENTES  :=  testCliente1.c testServer1.c testSocketMain.c
+FUENTES  :=  testClient.c
 
 INCLUDES :=
 
 # directorios de includes externos
 
-OUTHER_DIR_INCLUDE := .. ../../zlEvtTimer.lib /usr/local/zdat/include
+OUTHER_DIR_INCLUDE := . ../zlEvtMain.lib ../zlEvtTimer.lib /usr/local/zdat/include
 
-OUTHER_DIR_LIB:= .. ../../zlEvtTimer.lib /usr/local/zdat/lib
+OUTHER_DIR_LIB:= . ../zlEvtMain.lib ../zlEvtTimer.lib /usr/local/zdat/lib
 
 # librerias utilizadas
 
-OUTHER_LIBS:=  -lzlEvtSocket -lzlEvtTimer -lzlStd -levent
+OUTHER_LIBS:=  -lzlEvtServer -lzlEvtMain -lzlEvtTimer -lzlStd -levent
+DEPEND_LIBS:=  ./libzlEvtServer.a ../zlEvtMain.lib/libzlEvtMain.a ../zlEvtTimer.lib/libzlEvtTimer.a
 
 # variables intermedias
 
@@ -28,7 +29,7 @@ OBJETOS      := $(FUENTES:%.c=%.o)
 # -------- RULES ------------------
 
 all: $(NAME)
-$(OBJETOS):$(FUENTES) $(INCLUDES)
+$(OBJETOS):$(FUENTES) $(INCLUDES) $(DEPEND_LIBS)
 $(NAME): $(OBJETOS)
 	$(CC) $(LDFLAGS)  $(OBJETOS) $(LDLIBS) -o $(NAME)
 
