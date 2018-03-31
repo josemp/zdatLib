@@ -1,0 +1,9 @@
+tipoTabla: 1
+versionTabla: 00.01
+name: test1
+fuentes: test1.c
+includes: 
+outherDirInclude:.:/usr/local/zdat/include:../zlEvtTimer.lib:../zlEvtMain.lib
+outherDirLib:.:/usr/local/zdat/lib:../zlEvtTimer.lib:../zlEvtMain.lib
+outherLibs: -lzlEvtSockCli: -lzlEvtTimer: -lzlEvtMain:-lzlStd:-levent
+

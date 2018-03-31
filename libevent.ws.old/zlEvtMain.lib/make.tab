@@ -1,0 +1,18 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlEvtMain
+#Lista de fuentes
+fuentes: zlEventMain.c
+#Lista de includes
+includes: zlEventMain.h
+#Lista de directorios de proyectos dependientes
+proyectos: 
+#Lista de otros includes
+outherDirInclude: /usr/local/zdat/include
+#Lista de includes para instalar
+includesForInstall: zlEventMain.h
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista de files *.tab que compila test
+test: makeTest1.tab
+

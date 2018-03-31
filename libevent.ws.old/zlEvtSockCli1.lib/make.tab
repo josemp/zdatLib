@@ -1,0 +1,20 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlEvtSockCli1
+#Lista de fuentes
+fuentes: zlSocketClient1.c
+#Lista de includes
+includes: zlSocketClient1.h
+#Lista de directorios de proyectos dependientes
+proyectos: ../zlEvtMain.lib : ../zlEvtTimer.lib
+#Lista de otros includes
+outherDirInclude: /usr/local/zdat/include
+#Lista de includes para instalar
+includesForInstall: zlSocketClient1.h
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista de files *.tab que compila test
+test: makeTest1.tab
+
+
+

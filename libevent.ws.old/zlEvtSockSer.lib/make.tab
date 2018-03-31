@@ -1,0 +1,17 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlEvtServerBasic
+#Lista de fuentes
+fuentes: zlEvtServerBasic.c: zlEvtServerBasicSocket.c
+#Lista de includes
+includes:zlEvtServerBasic.h : zlEvtServerBasicSocket.h
+#Lista de directorios de proyectos dependientes
+proyectos:../zlEvtTimer.lib
+#Lista de otros includes
+outherDirInclude: /usr/local/zdat/include
+#Lista de includes para instalar
+includesForInstall:zlEvtServerBasic.h
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista de files *.tab que compila test
+test: makeTest1.tab

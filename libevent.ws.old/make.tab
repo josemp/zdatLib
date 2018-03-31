@@ -1,0 +1,6 @@
+tipoTabla: B
+versionTabla: 00.01
+name: zlEvt
+directorios: zlEvtMain.lib: zlEvtSockCli.lib:zlEvtSockCli1.lib: zlEvtSocket.lib: zlEvtSockSer0.lib :zlEvtTimer.lib
+outputLibInstall: /usr/local/zdat/lib
+outputIncludeInstall: /usr/local/zdat/include

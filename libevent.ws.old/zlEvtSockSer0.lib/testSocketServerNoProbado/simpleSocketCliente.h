@@ -1,0 +1,11 @@
+int simpleSocketCliente(int puerto);
+int simpleClienteGetSockfd();
+char *simpleClienteGetBuffer();
+void *simpleClienteRead_x(void *arg);
+void simpleClienteReadHilo();
+void simpleClienteRead();
+int simpleClienteWrite(char *buf);
+int simpleClienteGetReadEstado();
+void simpleClienteReadLargoHilo();
+void simpleClienteReadLargo1Hilo();
+long simpleClienteGetlenRead();
