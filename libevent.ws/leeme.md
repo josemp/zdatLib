@@ -10,7 +10,7 @@ Contenido
 ## Cliente Socket
 
 ### Plantilla Cliente
-
+```
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -85,4 +85,4 @@ zlEvtSocket_t  *cliente= zlEvtSocketClienteConnect(
 
 return(0);
 }
-
+```
