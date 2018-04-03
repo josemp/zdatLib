@@ -11,3 +11,6 @@ void LgW(int NumLog,int nivel_pedido,char *fmtx, ...);
 void LogW(int nivel_pedido,char *fmtx, ...);
 unsigned int zlLogCrea();
 void LogInitStd(int Nivel);
+void zlLogFlushOff();
+void zlLogFlushOn();
+
