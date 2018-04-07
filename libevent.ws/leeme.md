@@ -289,12 +289,12 @@ int eventoInicia(struct event_base *base,int argc,char **argv)
 
 
 // Conectamos cliente
-zlEvtSocket_t  *cliente= zlEvtSocketClienteConnect(
-               base
-             , "127.0.0.1"
-             , 5000
-             ,socket_cb
-             , NULL);
+zlEvtServer_t *server = zlEvtServerInicia (
+          base 
+         ,5000
+         ,0
+         ,server_cb
+         ,NULL );
 
 // En cuanto se cierre el socket, el programa muere mientras libevent no tenga eventos que mostrar
 
