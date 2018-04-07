@@ -68,7 +68,10 @@ void  zlEvtSocketFree(zlEvtSocket_t *socket)
 {
         printf("Liberando socketr\n");
         if (socket->server!=NULL)
+           {
+             socket->server->server_cb(SERVER_BASIC_DISCONNECT,socket->server,zlFalse,NULL,socket->server->tag);
              socket->server->numConexiones--;
+           }
         bufferevent_free(socket->buffer);
        // free(socket->socketParam);// lo hemos eliminado
         zlEvtSocketTimersFree(socket);

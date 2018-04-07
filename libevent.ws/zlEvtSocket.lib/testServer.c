@@ -82,6 +82,9 @@ void server_cb(
                   );
 
              break;
+        case SERVER_BASIC_DISCONNECT:
+             // El canal es server->numConexiones
+        break;
         default:
              printf("llega ????\n");
              break; 

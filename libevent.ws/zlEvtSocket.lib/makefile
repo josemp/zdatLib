@@ -10,7 +10,7 @@ INCLUDES := zlEvtServer.h zlEvtSocketComun.h
 
 # directorios de includes externos
 
-OUTHER_DIR_INCLUDE := ../zlEvtTimer.lib /usr/local/zdat/include
+OUTHER_DIR_INCLUDE := ../zlEvtTimer.lib ../zlEvtMain.lib /usr/local/zdat/include
 
 INCLUDES_FOR_INSTALL:= zlEvtServer.h zlEvtSocketComun.h
 

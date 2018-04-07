@@ -1,6 +1,6 @@
 
 
-typedef enum {SERVER_BASIC_BIND,SERVER_BASIC_CONNECT} zlEvtServerTipoEvento_e;
+typedef enum {SERVER_BASIC_BIND,SERVER_BASIC_CONNECT,SERVER_BASIC_DISCONNECT} zlEvtServerTipoEvento_e;
 
 struct zlEvtServer_s;
 struct zlEvtServerSocketParam_s;

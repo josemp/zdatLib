@@ -6,7 +6,7 @@ fuentes: zlEvtServer.c: zlEvtSocketComun.c
 #Lista de includes
 includes:zlEvtServer.h : zlEvtSocketComun.h
 #Lista de directorios de proyectos dependientes
-proyectos:../zlEvtTimer.lib
+proyectos:../zlEvtTimer.lib:../zlEvtMain.lib
 #Lista de otros includes
 outherDirInclude: /usr/local/zdat/include
 #Lista de includes para instalar
