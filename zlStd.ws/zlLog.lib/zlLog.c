@@ -223,15 +223,20 @@ va_end(ap);
 
 void Panic(int expresion,char *format, ...)
 {
+ FILE *ou;
  if (expresion!=0) return; // la expresion es true
- if (MiPanic.LogFd==NULL) return;
- logPrefijo(MiPanic.LogFd,expresion);
+ if (MiPanic.LogFd==NULL)
+   ou=stderr;
+ else
+   ou=MiPanic.LogFd;
+ logPrefijo(ou,expresion);
 
 va_list ap;
 va_start(ap,format);
-vfprintf(MiPanic.LogFd,format,ap);
+vfprintf(ou,format,ap);
 va_end(ap);
- fflush(MiPanic.LogFd);
+ fflush(ou);
+
 assert(expresion!=0);
 }
 
