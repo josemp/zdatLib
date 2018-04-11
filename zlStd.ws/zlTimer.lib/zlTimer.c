@@ -250,6 +250,11 @@ se=atoi(aux);
 return(ho*60*60+mi*60+se);
 }
 
+/* De fecha y hora, calculamos la estructura tm 
+ Ejemplo
+ struct *tm tmf = tmFecha("20180203","%Y%m%d","12:05:08","%H:%M:%S"); 
+*/
+
 struct tm  *tmFecha(char *fecha,char *formatFecha, char *hora,char *formatHora,struct tm *ltm)
 {
 char fechaHora[200]; // supongo bastante
@@ -261,6 +266,10 @@ memset(ltm, 0, sizeof(struct tm));
 strptime(fechaHora, format, ltm);
 return(ltm);
 }
+/* De fecha y hora, calculamos  los segudos desde 1900 (el time_t)
+ Ejemplo
+  time_t segundos = timeFecha("20180203","%Y%m%d","12:05:08","%H:%M:%S"); 
+*/
 time_t timeFecha(char *fecha,char *formatFecha, char *hora,char *formatHora)
 {
 struct tm ltm;
