@@ -1,0 +1,17 @@
+tipoTabla: 2
+versionTabla: 00.01
+name: zlListap
+#Lista1 de fuentes
+fuentes: zlListap.c
+#Lista1 de includes
+includes: zlListap.h
+#Lista1 de directorios de proyectos dependientes
+proyectos: 
+#Lista1 de otros includes
+outherDirInclude:/usr/local/zdat/include 
+#Lista1 de includes para instalar
+includesForInstall: zlListap.h
+outputLibInstall: 
+outputIncludeInstall: 
+#Lista1 de files *.tab que compila test
+test: makeTest1.tab

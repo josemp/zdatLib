@@ -1,0 +1,37 @@
+# output program
+
+NAME    := test1
+
+# fuentes e includes del proyecto
+
+FUENTES  :=  test1.c
+
+INCLUDES :=
+
+# directorios de includes externos
+
+OUTHER_DIR_INCLUDE := . /usr/local/zdat/include
+
+OUTHER_DIR_LIB:= . /usr/local/zdat/lib
+
+# librerias utilizadas
+
+OUTHER_LIBS:=  -lzlListap
+DEPEND_LIBS:=  ./libzlListap.a
+
+# variables intermedias
+
+CFLAGS = $(OUTHER_DIR_INCLUDE:%=-I%)
+LDFLAGS = $(OUTHER_DIR_LIB:%=-L%)
+LDLIBS =     $(OUTHER_LIBS)
+OBJETOS      := $(FUENTES:%.c=%.o)
+
+# -------- RULES ------------------
+
+all: $(NAME)
+$(OBJETOS):$(FUENTES) $(INCLUDES) $(DEPEND_LIBS)
+$(NAME): $(OBJETOS)
+	$(CC) $(LDFLAGS)  $(OBJETOS) $(LDLIBS) -o $(NAME)
+
+clean:
+	 - rm -f $(OBJETOS) $(NAME)

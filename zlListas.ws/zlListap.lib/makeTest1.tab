@@ -1,0 +1,15 @@
+tipoTabla: 1
+versionTabla: 00.01
+name: test1
+#Lista de fuentes
+fuentes: test1.c
+#Lista de includes
+includes: 
+#Lista de proyectos dependientes
+proyectos: .
+#Lista de otros includes
+outherDirInclude: /usr/local/zdat/include
+#Lista de otros Dir de libreria
+outherDirLib: /usr/local/zdat/lib
+#Lista de otras librerias
+outherLibs: 
