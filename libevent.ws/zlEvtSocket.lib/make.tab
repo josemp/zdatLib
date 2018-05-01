@@ -1,17 +1,23 @@
 tipoTabla: 2
 versionTabla: 00.01
 name: zlEvtServer
+
 #Lista de fuentes
-fuentes: zlEvtServer.c: zlEvtSocketComun.c
+fuentes: zlEvtServer.c: zlEvtSocketComun.c : zlEvtClient.c
+
 #Lista de includes
-includes:zlEvtServer.h : zlEvtSocketComun.h
+includes:zlEvtServer.h : zlEvtSocketComun.h : zlEvtClient.h
+
 #Lista de directorios de proyectos dependientes
-proyectos:../zlEvtTimer.lib:../zlEvtMain.lib
+proyectos:../zlEvtTimer.lib
+
 #Lista de otros includes
 outherDirInclude: /usr/local/zdat/include
+
 #Lista de includes para instalar
-includesForInstall:zlEvtServer.h :  zlEvtSocketComun.h
+includesForInstall:zlEvtServer.h :zlEvtClient.h:  zlEvtSocketComun.h
+
 outputLibInstall: 
 outputIncludeInstall: 
 #Lista de files *.tab que compila test
-test: makeTestServer.tab:makeTestClient.tab
+test: makeTestServer.tab:makeTestClient.tab:makeTestClient1.tab

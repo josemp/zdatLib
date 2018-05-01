@@ -12,9 +12,10 @@
 #include <pthread.h>
 #include "zlEventMain.h"
 #include "zlStd.h"
+#include "zlListas.h"
 #include "zlEvtTimer.h"
-#include "zlEvtServer.h"
 #include "zlEvtSocketComun.h"
+#include "zlEvtServer.h"
 /*Los tipos del callback socket
 typedef enum {
               ZLEVT_SOCKET_CONNECT
@@ -29,6 +30,7 @@ void socket_cb(
              ,struct evbuffer *input
              , int numTimer
              ,struct zlEvtSocket_s *socket
+             , void *tagProtocolo
              , void *tag)
 {
     switch(tipo)
@@ -38,6 +40,7 @@ void socket_cb(
                    char pepe[10];
                    strcpy(pepe,"hola\n");
 zlEvtSocketWriteCommand(socket,pepe,strlen(pepe));
+                   printf("pasa pues\n");fflush(stdout);
                    break;
               case ZLEVT_SOCKET_DATOS:
                    printf(" ZLEVT_SOCKET_DATOS  \n");
@@ -58,7 +61,7 @@ zlEvtSocketWriteCommand(socket,pepe,strlen(pepe));
 
 }
 
-void server_cb(
+zlBool_t server_cb(
                    zlEvtServerTipoEvento_e tipo
                    , struct zlEvtServer_s *server
                    , zlBool_t estado
@@ -73,18 +76,18 @@ void server_cb(
              break;
         case SERVER_BASIC_CONNECT:
              printf("llega connect\n");fflush(stdout);
-             zlEvtSocket_t  *socket = zlEvtSocketServerConnect(
-                   server->base
+/*
+              zlEvtSocket_t  socket= *zlEvtServerSocketConnect(
+                   server
                   ,socketParam
-                  ,socket_cb
-                  ,server
                   , NULL
                   );
-
+*/
+             return(zlTrue);
              break;
         case SERVER_BASIC_DISCONNECT:
-             // El canal es server->numConexiones
-        break;
+             printf("llega disconnect\n");fflush(stdout);
+             break;
         default:
              printf("llega ????\n");
              break; 
@@ -112,6 +115,7 @@ zlEvtServer_t *server = zlEvtServerInicia (
          ,5000
          ,0
          ,server_cb
+         ,socket_cb
          ,NULL );
 if (server==NULL) printf("algo va mal\n");
 return(0);

@@ -19,6 +19,7 @@ typedef void (*zlEvtSocket_i)(
              ,struct evbuffer *input
              , int numTimer
              ,struct zlEvtSocket_s *socket
+             , void *tagProtocolo
              , void *tag);
 
 // Timeouts
@@ -38,22 +39,31 @@ void * tag;
 #define SERVER_BASIC_NUM_TIMERS 10
 
 typedef struct zlEvtSocket_s {
-int canal; // solo para server, es el numConexiones de la conexion
+long canal; // solo para server, es el numConexiones de la conexion
 char ip[ 100 ];
 int puerto ;
 evutil_socket_t fd;
 //zlServerBasicSocketParam_t *socketParam; // liberar
 struct event_base *base;
 struct bufferevent *buffer;
-zlEvtServer_t *server; // si es !=NULL es server
+void *serverOrClient; // datos del manejador de sockets cliente o server
+void (*cancel_cb)();
 zlEvtSocket_i socket_cb;
 int closeOnWrite;
 zlBool_t isConnected;
 void *tag;
+void *tagProtocolo; // Este tag lo creo para que sea creado en una conexion y liberado al final de la conexion. Solo datos de protocolo.
 zlEvtSocketTimer_t timer[SERVER_BASIC_NUM_TIMERS]; // 10 timers para usar como queramos
 } zlEvtSocket_t;
 
 
+typedef struct zlEvtServerSocketParam_s
+{
+struct evconnlistener *listener;
+evutil_socket_t fd;
+struct sockaddr *address;
+int socklen;
+}zlEvtServerSocketParam_t;
 
 
 void  zlEvtSocketFree(zlEvtSocket_t *socket);
@@ -61,7 +71,9 @@ zlEvtSocket_t  *zlEvtSocketServerConnect(
                   struct event_base *base
                   ,zlEvtServerSocketParam_t *socketParam
                   ,zlEvtSocket_i socket_cb
-                  ,zlEvtServer_t *server
+                  ,void *server
+                  ,void (*cancel_cb)()
+                  , long canal
                   , void *tag
                   );
 
@@ -70,8 +82,16 @@ zlEvtSocket_t  * zlEvtSocketClienteConnect(
              , char *ip
              , int puerto
              , zlEvtSocket_i socket_cb
+             , void *client
+             , void (*cancel_cb)()
              , void *tag);
 
+zlEvtSocket_t  * zlEvtSocketClienteConnectBasic(
+               struct event_base *base
+             , char *ip
+             , int puerto
+             , zlEvtSocket_i socket_cb
+             , void *tag);
 
 void zlEvtSocketTimerActiva(zlEvtSocket_t *socket,int num,int tiempo,void *tag);
 

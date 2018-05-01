@@ -14,8 +14,8 @@
 
 #include "zlEvtTimer.h"
 #include "zlStd.h"
-#include "zlEvtServer.h"
 #include "zlEvtSocketComun.h"
+//#include "zlEvtServer.h"
 
 
 void zlEvtSocketTimersFree(zlEvtSocket_t *socket);
@@ -25,70 +25,69 @@ void zlEvtSocketTimersFree(zlEvtSocket_t *socket);
 
 void zlEvtSocketRead_cb (struct bufferevent *bev , void * ptr )
 {
-printf("zlEvtSocketRead_cb\n");
 zlEvtSocket_t *socket=ptr;
   /* This callback is invoked when there is data to read on bev. */
   struct evbuffer *input = bufferevent_get_input(bev );
-  socket->socket_cb(ZLEVT_SOCKET_DATOS,input,0,socket,socket->tag);
+  socket->socket_cb(ZLEVT_SOCKET_DATOS,input,0,socket,socket->tagProtocolo,socket->tag);
 }
 
 void zlEvtSocketWrite_cb(struct bufferevent *bev, void *ptr)
 {
-printf("zlEvtSocketWrite_cb\n");
         zlEvtSocket_t *socket=ptr;
-        socket->socket_cb(ZLEVT_SOCKET_WRITE,NULL,0,socket,socket->tag);
+        socket->socket_cb(ZLEVT_SOCKET_WRITE,NULL,0,socket,socket->tagProtocolo,socket->tag);
 
 }
 
 void zlEvtSocketEvent_cb (struct bufferevent *bev , short events , void * ptr)
 {
-printf("zlEvtSocketEvent_cb\n");fflush(stdout);
    zlEvtSocket_t *socket=ptr;
 
 zlEventDescBevEvent (events );
 
     if ( events & BEV_EVENT_CONNECTED ) 
 {
-printf ("conectamos\n");
-                socket->socket_cb(ZLEVT_SOCKET_CONNECT,NULL,0,socket,socket->tag);
+       socket->isConnected=zlTrue;
+                socket->socket_cb(ZLEVT_SOCKET_CONNECT,NULL,0,socket,socket->tagProtocolo,socket->tag);
 }
 
      if (events & ( BEV_EVENT_ERROR |BEV_EVENT_EOF )) {
-   printf("por aqui no pasamos\n");
          if (socket->isConnected == zlTrue)
-            socket->socket_cb(ZLEVT_SOCKET_FIN,NULL,0,socket,socket->tag);
-         else
-            socket->socket_cb(ZLEVT_SOCKET_RECHAZADO,NULL,0,socket,socket->tag);
-         zlEvtSocketFree(socket);
-         
+            socket->socket_cb(ZLEVT_SOCKET_FIN,NULL,0,socket,socket->tagProtocolo,socket->tag);
+         else   // esto solo es posible en el cliente
+          {
+            socket->socket_cb(ZLEVT_SOCKET_RECHAZADO,NULL,0,socket,socket->tagProtocolo,socket->tag);
+          }
+            // Socket cerrado por remoto
+            zlEvtSocketFree(socket);
+             
     }
-printf("ya no hay evento\n");
 }
 void  zlEvtSocketFree(zlEvtSocket_t *socket)
 {
-        printf("Liberando socketr\n");
-        if (socket->server!=NULL)
-           {
-             socket->server->server_cb(SERVER_BASIC_DISCONNECT,socket->server,zlFalse,NULL,socket->server->tag);
-             socket->server->numConexiones--;
-           }
+       // al cancel_cb se entra con el socket cerrado y eliminado
+       int canal=socket->canal;
+       void (*cancel_cb)() = socket->cancel_cb;
+       void *serverOrClient=socket->serverOrClient;
         bufferevent_free(socket->buffer);
-       // free(socket->socketParam);// lo hemos eliminado
         zlEvtSocketTimersFree(socket);
         free(socket);
+        if (cancel_cb!=NULL)
+            cancel_cb(serverOrClient,canal);
+
 }
 
 
-// Conecta cliente
+// Conecta cliente con handler y callback
 
 zlEvtSocket_t  * zlEvtSocketClienteConnect(
                struct event_base *base
              , char *ip
              , int puerto
              , zlEvtSocket_i socket_cb
+             ,void *client
+             ,void (*cancel_cb)()
              , void *tag)
 {
-printf("CONECTO CLIENTE");fflush(stdout);
 zlEvtSocket_t *socket=malloc(sizeof(zlEvtSocket_t));
 memset(socket,0,sizeof(zlEvtSocket_t));
   socket->base=base;
@@ -113,11 +112,21 @@ memset(socket,0,sizeof(zlEvtSocket_t));
 bufferevent_socket_connect (socket->buffer , zlEventSockaddr (&sin ,socket -> ip, socket ->puerto ), sizeof (sin ));
  bufferevent_enable ( socket->buffer, EV_READ |EV_WRITE );
 
-
+ socket->cancel_cb = cancel_cb;
+ socket->serverOrClient = client;
   return (socket );
 }
 
 
+zlEvtSocket_t  * zlEvtSocketClienteConnectBasic(
+               struct event_base *base
+             , char *ip
+             , int puerto
+             , zlEvtSocket_i socket_cb
+             , void *tag)
+{
+return zlEvtSocketClienteConnect(base,ip,puerto,socket_cb,NULL,NULL,tag);
+}
 
 // SERVER CONNECT
 
@@ -125,7 +134,9 @@ zlEvtSocket_t  * zlEvtSocketServerConnect(
                    struct event_base *base
                   ,zlEvtServerSocketParam_t *socketParam
                   ,zlEvtSocket_i socket_cb
-                  ,zlEvtServer_t *server
+                  ,void *server
+                  ,void (*cancel_cb)()
+                  , long canal
                   , void *tag
                   )
 {
@@ -137,11 +148,12 @@ memset(socket,0,sizeof(zlEvtSocket_t));
 // set datos
 // socket->socketParam=socketParam;
  socket->base = base;
- socket->server = server;
+ socket->serverOrClient = server;
 socket->socket_cb=socket_cb;
 socket->tag=tag;
 socket->fd=socketParam->fd;
 socket->isConnected=zlTrue;
+socket->canal = canal;
 
  socket->buffer = bufferevent_socket_new(
       socket->base , socketParam->fd, BEV_OPT_CLOSE_ON_FREE);
@@ -153,21 +165,19 @@ socket->isConnected=zlTrue;
                , zlEvtSocketEvent_cb
                , socket);
 //      bufferevent_enable(socket->buffer , EV_READ);
- socket->socket_cb(ZLEVT_SOCKET_CONNECT,NULL,0,socket,socket->tag);
- socket->canal=server->numConexiones;
- server->numConexiones=server->numConexiones+1;
- free(socketParam);
+ socket->socket_cb(ZLEVT_SOCKET_CONNECT,NULL,0,socket,socket->tagProtocolo,socket->tag);
+ socket->cancel_cb = cancel_cb;
 return(socket);
 
 }
 
 
-
+// Si len = 0 es el strlen de buf, cuidado no mandar un buf con len 0 de verdad
 void zlEvtSocketWriteCommandCierre(zlEvtSocket_t *socket,char *buf,int len,int cierraAlTerminar)
 {
         if (socket->buffer==NULL) return;//El socket ya se ha cerrado
+        if (len==0) len=strlen(buf);
         struct evbuffer *output = bufferevent_get_output(socket->buffer );
-        printf("Enviando <%.*s>\n",len,buf);
         evbuffer_add(output,buf, len);
         socket->closeOnWrite=cierraAlTerminar;
 
@@ -231,7 +241,7 @@ zlEvtTimerFree(timer->timer);
 LogW(9,"llega timer3\n");
 timer->timer=NULL;
 LogW(9,"llega timer4\n");
-socket->socket_cb(ZLEVT_SOCKET_TIMEOUT,NULL,timer->numero,socket,socket->tag);
+socket->socket_cb(ZLEVT_SOCKET_TIMEOUT,NULL,timer->numero,socket,socket->tagProtocolo,socket->tag);
 LogW(9,"llega timer5\n");
 
 }

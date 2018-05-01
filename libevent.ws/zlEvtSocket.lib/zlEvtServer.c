@@ -9,20 +9,53 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "zlEvtTimer.h"
 #include "zlStd.h"
-#include "zlEvtServer.h"
+#include <zlListas.h>
+#include "zlEvtTimer.h"
 #include "zlEvtSocketComun.h"
+#include "zlEvtServer.h"
 
 static void zlEvtServerTimeoutBind(evutil_socket_t fd , short what, void *arg);
 zlBool_t zlEvtServerBind(zlEvtServer_t *server);
+
+//Callback de desconexion informado por socketComun : ver cancel_cb
+
+void zlEvtServerDisconectConexion(zlEvtServer_t *server,long canal)
+{
+zlListapFreeItem(server->conexiones ,  canal);
+server->server_cb(SERVER_BASIC_DISCONNECT,server,zlFalse,NULL,server->tag);
+//server->numConexiones--;
+
+}
+
+
+
+/* Creo que esto sobra, pues nadie mas va a llamarlo */
+zlEvtSocket_t  *zlEvtServerSocketConnect(zlEvtServer_t *server
+                  ,zlEvtServerSocketParam_t *socketParam
+                  , long canal
+                  , void *tag
+                  )
+{
+
+return  zlEvtSocketServerConnect(
+                  server->base
+                  ,socketParam
+                  , server->socket_cb
+                  , server
+                  , zlEvtServerDisconectConexion
+                  , canal
+                  , tag
+                  );
+
+}
+
 
 static void zlEvtServerAccept_cb(struct evconnlistener *listener ,
     evutil_socket_t fd , struct sockaddr *address , int socklen,
     void *ctx )
 {
   /* We got a new connection! Set up a bufferevent for it. */
-    printf("accept conexion 1\n" );
     zlEvtServer_t *server =ctx;
 //  struct event_base *base = evconnlistener_get_base(listener );
 //  struct bufferevent *bev = bufferevent_socket_new(
@@ -32,7 +65,6 @@ static void zlEvtServerAccept_cb(struct evconnlistener *listener ,
 
 
 // La estructura
-printf("estructura socket param\n");fflush(stdout);
 zlEvtServerSocketParam_t *socketParam;// t-q-l
 socketParam=malloc(sizeof(zlEvtServerSocketParam_t));
 memset(socketParam,0,sizeof(zlEvtServerSocketParam_t));
@@ -41,9 +73,22 @@ socketParam->address=address;
 socketParam->socklen=socklen;
 socketParam->listener=listener;
 
-printf("fin estructura socket param\n");fflush(stdout);
-     server->server_cb(SERVER_BASIC_CONNECT,server,zlTrue,socketParam,server->tag);
-printf("fin  llamada connect\n");fflush(stdout);
+   zlBool_t retb= server->server_cb(SERVER_BASIC_CONNECT,server,zlTrue,socketParam,server->tag);
+   if (retb==zlTrue)
+     {
+              int canal=zlListapUpdateOrAppendCheckPos(server->conexiones);
+              zlEvtSocket_t  *socket= zlEvtServerSocketConnect(
+                   server
+                  ,socketParam
+                  , canal
+                  , server->tag
+                  );
+              zlListapUpdateOrAppendPos(server->conexiones,socket,canal);
+            
+     }
+else
+     evutil_closesocket (fd);//Cerramos la conexion
+free(socketParam);
 
   //set_tcp_no_delay(fd);
   LogW(9,"accept conexion 2\n" );
@@ -69,6 +114,7 @@ zlEvtServer_t *zlEvtServerInicia (
          ,int puerto 
          ,int timeoutAccept
          ,zlEvtServer_i server_cb
+         ,zlEvtSocket_i socket_cb
          ,void * tag )
 {
   struct timeval tv ;
@@ -80,13 +126,15 @@ zlEvtServer_t *zlEvtServerInicia (
   zlEvtServer_t *server;
   server=(zlEvtServer_t *) malloc (sizeof(zlEvtServer_t ));
   memset(server ,0, sizeof(zlEvtServer_t ));
-
+  server->conexiones=zlListapCrea("serverConexiones",NULL);
+  server->isBinding=zlFalse;
   tv.tv_sec =timeoutAccept;
   tv.tv_usec =0;
   server->timeoutBind = tv;
   server->tag =tag;
   server->puerto =puerto;
   server->server_cb =server_cb;
+  server->socket_cb = socket_cb;
   server->tag =tag;
   server->base =base;
 
@@ -111,7 +159,6 @@ zlBool_t zlEvtServerBind(zlEvtServer_t *server)
   /* Listen on 0.0.0.0 */
   sin.sin_addr .s_addr = htonl(0 );
   /* Listen on the given puerto. */
-  printf("puerto <%d>\n",server->puerto);
   sin.sin_port = htons( (uint16_t)server->puerto );
 
   server->listener = evconnlistener_new_bind(server->base , zlEvtServerAccept_cb, server,
@@ -121,7 +168,6 @@ zlBool_t zlEvtServerBind(zlEvtServer_t *server)
 
 
   if (!server->listener) {
-      LogW(9,"bind error\n");
       if (server->timeoutBind.tv_sec<=0)
            return(zlFalse);
       server->server_cb(SERVER_BASIC_BIND,server,zlFalse,NULL,server->tag);
@@ -131,6 +177,7 @@ zlBool_t zlEvtServerBind(zlEvtServer_t *server)
       LogW(9,"bind correcto <%ld>\n",server->puerto);
        server->server_cb(SERVER_BASIC_BIND,server,zlTrue,NULL,server->tag);
       // Esperamos el accept, quizá s considerar el liberrar el timeout
+      server->isBinding =zlTrue;
       return(zlTrue);
   }
 
@@ -141,3 +188,10 @@ static void zlEvtServerTimeoutBind(evutil_socket_t fd , short what, void *arg)
   zlEvtServer_t *server = arg;
   zlEvtServerBind(server);
 }
+long zlEvtSocketServerNumConexiones(zlEvtServer_t *server)
+{
+ return(server->conexiones->numActivos);
+
+
+}
+

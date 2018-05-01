@@ -12,18 +12,21 @@
 #include <pthread.h>
 #include "zlEventMain.h"
 #include "zlStd.h"
+#include "zlListas.h"
 #include "zlEvtTimer.h"
-#include "zlEvtServer.h"
 #include "zlEvtSocketComun.h"
+#include "zlEvtServer.h"
 void socket_cb(
               zlEvtSocketTipoEvento_e tipo
              ,struct evbuffer *input
              , int numTimer
             // ,struct zlEvtSocket_s *socket
              ,zlEvtSocket_t *socket
+             , void *tagProtocolo
              , void *tag)
 {
-    switch(tipo)
+  printf("pasa pues\n");fflush(stdout);
+   switch(tipo)
      {
               case ZLEVT_SOCKET_RECHAZADO:
                    printf("ZLEVT_SOCKET_RECHAZADO  \n");
@@ -68,7 +71,7 @@ printf("---------------------------------------------------------------\n");
 //testClienteLargo1(base);
 printf("Conectando ....................\n");
 
-zlEvtSocket_t  *cliente= zlEvtSocketClienteConnect(
+zlEvtSocket_t  *cliente= zlEvtSocketClienteConnectBasic(
                base
              , "127.0.0.1"
              , 5000

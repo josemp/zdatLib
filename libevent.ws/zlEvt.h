@@ -3,7 +3,8 @@
 #include <event2/buffer.h>
 #include <zlEventMain.h>
 #include "zlEvtTimer.h"
-#include "zlEvtServer.h"
 #include "zlEvtSocketComun.h"
+#include "zlEvtClient.h"
+#include "zlEvtServer.h"
 
 

@@ -12,4 +12,4 @@ outherDirInclude: /usr/local/zdat/include
 #Lista de otros Dir de libreria
 outherDirLib: /usr/local/zdat/lib
 #Lista de otras librerias
-outherLibs:  -lzlStd -levent
+outherLibs:  -lzlListas -lzlStd -levent

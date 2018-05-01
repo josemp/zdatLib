@@ -16,7 +16,7 @@ OUTHER_DIR_LIB:= . ../zlEvtMain.lib ../zlEvtTimer.lib /usr/local/zdat/lib
 
 # librerias utilizadas
 
-OUTHER_LIBS:=  -lzlEvtServer -lzlEvtMain -lzlEvtTimer -lzlStd -levent
+OUTHER_LIBS:=  -lzlEvtServer -lzlEvtMain -lzlEvtTimer -lzlListas -lzlStd -levent
 DEPEND_LIBS:=  ./libzlEvtServer.a ../zlEvtMain.lib/libzlEvtMain.a ../zlEvtTimer.lib/libzlEvtTimer.a
 
 # variables intermedias

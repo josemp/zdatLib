@@ -5,9 +5,9 @@ LIBRARY_NAME := lib$(NAME).a
 
 # Lista de objetos e includes del proyecto
 
-OBJETOS  :=  zlEvtMain.lib/zlEventMain.o zlEvtSocket.lib/zlEvtServer.o zlEvtSocket.lib/zlEvtSocketComun.o zlEvtTimer.lib/zlEvtTimer.o
+OBJETOS  :=  zlEvtMain.lib/zlEventMain.o zlEvtSocket.lib/zlEvtServer.o zlEvtSocket.lib/zlEvtSocketComun.o zlEvtSocket.lib/zlEvtClient.o zlEvtTimer.lib/zlEvtTimer.o
 
-INCLUDES  :=  zlEvtMain.lib/zlEventMain.h zlEvtSocket.lib/zlEvtServer.h zlEvtSocket.lib/zlEvtSocketComun.h zlEvtTimer.lib/zlEvtTimer.h zlEvt.h
+INCLUDES  :=  zlEvtMain.lib/zlEventMain.h zlEvtSocket.lib/zlEvtServer.h zlEvtSocket.lib/zlEvtClient.h zlEvtSocket.lib/zlEvtSocketComun.h zlEvtTimer.lib/zlEvtTimer.h zlEvt.h
 
 
 # install directorios

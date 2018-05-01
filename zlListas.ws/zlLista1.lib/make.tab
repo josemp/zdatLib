@@ -10,7 +10,7 @@ proyectos:
 #Lista1 de otros includes
 outherDirInclude: 
 #Lista1 de includes para instalar
-includesForInstall: 
+includesForInstall: zlLista1.h
 outputLibInstall: 
 outputIncludeInstall: 
 #Lista1 de files *.tab que compila test

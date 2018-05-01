@@ -5,9 +5,9 @@ LIBRARY_NAME := lib$(NAME).a
 
 # Lista de objetos e includes del proyecto
 
-OBJETOS  :=  zlLista1.lib/zlLista1.o
+OBJETOS  :=  zlLista1.lib/zlLista1.o zlListap.lib/zlListap.o
 
-INCLUDES  := 
+INCLUDES  :=  zlLista1.lib/zlLista1.h zlListap.lib/zlListap.h zlListas.h
 
 
 # install directorios
@@ -25,9 +25,11 @@ $(LIBRARY_NAME): $(OBJETOS)
 
 compila:
 	$(MAKE) -C zlLista1.lib
+	$(MAKE) -C zlListap.lib
 
 clean:
 	$(MAKE) -C zlLista1.lib clean
+	$(MAKE) -C zlListap.lib clean
 install:
 	- mkdir -p $(OUTPUT_LIB_INSTALL)
 	- mkdir -p $(OUTPUT_INCLUDE_INSTALL)

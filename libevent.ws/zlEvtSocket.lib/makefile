@@ -4,13 +4,13 @@ NAME    := zlEvtServer
 
 # fuentes e includes del proyecto
 
-FUENTES  :=  zlEvtServer.c zlEvtSocketComun.c
+FUENTES  :=  zlEvtServer.c zlEvtSocketComun.c zlEvtClient.c
 
-INCLUDES := zlEvtServer.h zlEvtSocketComun.h
+INCLUDES := zlEvtServer.h zlEvtSocketComun.h zlEvtClient.h
 
 # directorios de includes externos
 
-OUTHER_DIR_INCLUDE := ../zlEvtTimer.lib ../zlEvtMain.lib /usr/local/zdat/include
+OUTHER_DIR_INCLUDE := ../zlEvtTimer.lib /usr/local/zdat/include
 
 INCLUDES_FOR_INSTALL:= zlEvtServer.h zlEvtSocketComun.h
 
@@ -40,6 +40,7 @@ clean:
 	 - rm -f $(OBJETOS) $(LIBRARY_NAME)
 	make -C . -f makefileTestServer clean
 	make -C . -f makefileTestClient clean
+	make -C . -f makefileTestClient1 clean
 install:
 	- mkdir -p $(OUTPUT_LIB_INSTALL)
 	- mkdir -p $(OUTPUT_INCLUDE_INSTALL)
@@ -49,3 +50,4 @@ install:
 test: $(LIBRARY_NAME)
 	make -C . -f makefileTestServer
 	make -C . -f makefileTestClient
+	make -C . -f makefileTestClient1
