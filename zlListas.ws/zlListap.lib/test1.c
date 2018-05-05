@@ -11,6 +11,11 @@ typedef struct {
 int uno;
 char dos[10];
 }prueba_t;
+
+
+
+
+
 int main()
 {
 // Crear zlListap
