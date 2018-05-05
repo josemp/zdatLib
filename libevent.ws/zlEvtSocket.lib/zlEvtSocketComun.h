@@ -96,3 +96,6 @@ zlEvtSocket_t  * zlEvtSocketClienteConnectBasic(
 void zlEvtSocketTimerActiva(zlEvtSocket_t *socket,int num,int tiempo,void *tag);
 
 void zlEvtSocketWriteCommand(zlEvtSocket_t *socket,char *buf,int len);
+
+
+struct sockaddr *zlEventSockaddr ( struct sockaddr_in *adr ,char * ip, int puerto );

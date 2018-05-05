@@ -258,3 +258,20 @@ timer->timer=zlEvtTimerNuevoActiva(
                     ,tiempo,0
                     ,zlEvtSocketTimer_cb,timer);
 }
+struct sockaddr *zlEventSockaddr ( struct sockaddr_in *adr ,char * ip, int puerto )
+{
+//  int socks ;
+//int fd;
+  //struct hostent * hostlocal ;
+  //int ret ;
+  unsigned long miip;
+  //int lgadr = sizeof (*adr );
+ memset (adr , 0, sizeof (struct sockaddr_in  ));
+ miip =(unsigned long) inet_addr ( ip);            /*Direcc: Pasar formato puntos a long */
+ adr ->sin_addr . s_addr= miip ;     /* /usr/include/netinet> in.h  in_f.h */
+ adr ->sin_port = htons( (uint16_t) puerto ); /*Num puerto  -->/etc/services */
+ adr ->sin_family = AF_INET ;       /* Familia direccion --> dominio Internet */
+
+  return ((struct sockaddr *)adr );
+}
+

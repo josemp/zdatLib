@@ -54,6 +54,7 @@ if ( evento & BEV_EVENT_EOF )
 printf ("}\n" );
 
 }
+/* pasado a zlEvtSockets.lib 
 struct sockaddr *zlEventSockaddr ( struct sockaddr_in *adr ,char * ip, int puerto )
 {
 //  int socks ;
@@ -63,11 +64,11 @@ struct sockaddr *zlEventSockaddr ( struct sockaddr_in *adr ,char * ip, int puert
   unsigned long miip;
   //int lgadr = sizeof (*adr );
  memset (adr , 0, sizeof (struct sockaddr_in  ));
- miip =(unsigned long) inet_addr ( ip);            /*Direcc: Pasar formato puntos a long */
- adr ->sin_addr . s_addr= miip ;     /* /usr/include/netinet> in.h  in_f.h */
- adr ->sin_port = htons( (uint16_t) puerto ); /*Num puerto  -->/etc/services */
- adr ->sin_family = AF_INET ;       /* Familia direccion --> dominio Internet */
+ miip =(unsigned long) inet_addr ( ip);            /-Direcc: Pasar formato puntos a long -/
+ adr ->sin_addr . s_addr= miip ;     /- /usr/include/netinet> in.h  in_f.h -/
+ adr ->sin_port = htons( (uint16_t) puerto ); /-Num puerto  -->/etc/services -/
+ adr ->sin_family = AF_INET ;       /- Familia direccion --> dominio Internet -/
 
   return ((struct sockaddr *)adr );
 }
-
+*/
