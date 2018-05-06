@@ -33,9 +33,14 @@ void socket_cb(
                    break;
               case ZLEVT_SOCKET_CONNECT:
                    printf("ZLEVT_SOCKET_CONNECT  \n");
+                   zlEvtSocketTimerActiva(socket,0,5,NULL);
+                   
+                   
                    break;
               case ZLEVT_SOCKET_DATOS:
                    printf(" ZLEVT_SOCKET_DATOS  \n");
+printf("desactiva timeout\n");
+                   zlEvtSocketTimerDesactiva(socket,0);
                    break;
               case ZLEVT_SOCKET_WRITE:
                    printf("ZLEVT_SOCKET_WRITE  \n");
@@ -44,7 +49,7 @@ void socket_cb(
                    printf(" ZLEVT_SOCKET_FIN  \n");
                    break;
               case ZLEVT_SOCKET_TIMEOUT:
-                   printf(" ZLEVT_SOCKET_TIMEOUT \n");
+                   printf(" ZLEVT_SOCKET_TIMEOUT <%d>\n",numTimer);
                    break;
               default:
                    printf("ZLEVT_SOCKET DEFAULT \n");

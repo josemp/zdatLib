@@ -18,6 +18,7 @@
 //#include "zlEvtServer.h"
 
 
+void zlEvtSocketTimersInicializa(zlEvtSocket_t *socket);
 void zlEvtSocketTimersFree(zlEvtSocket_t *socket);
 
 // CALLBACKS INTERNOS
@@ -114,6 +115,7 @@ bufferevent_socket_connect (socket->buffer , zlEventSockaddr (&sin ,socket -> ip
 
  socket->cancel_cb = cancel_cb;
  socket->serverOrClient = client;
+zlEvtSocketTimersInicializa(socket);
   return (socket );
 }
 
@@ -167,6 +169,7 @@ socket->canal = canal;
 //      bufferevent_enable(socket->buffer , EV_READ);
  socket->socket_cb(ZLEVT_SOCKET_CONNECT,NULL,0,socket,socket->tagProtocolo,socket->tag);
  socket->cancel_cb = cancel_cb;
+zlEvtSocketTimersInicializa(socket);
 return(socket);
 
 }
@@ -203,31 +206,14 @@ struct zlEvtSocket_s *socket;
 } zlEvtSocketTimer_t;
 */
 
-void zlEvtSocketTimersInicializa(zlEvtSocket_t *socket)
+// nuevo
+void zlEvtSocketTimerDesactiva(zlEvtSocket_t *socket,int num)
 {
- int i;
-zlEvtSocketTimer_t *timer;
- for (i=0;i<SERVER_BASIC_NUM_TIMERS;i++)
-  {
-    timer=&socket->timer[i];
-    memset(timer,0,sizeof(zlEvtSocketTimer_t));
-    timer->numero=i;
-    timer->socket=socket;
-  }
-}
-void zlEvtSocketTimersFree(zlEvtSocket_t *socket)
-{
- int i;
-zlEvtSocketTimer_t *timer;
- for (i=0;i<SERVER_BASIC_NUM_TIMERS;i++)
-  {
-    timer=&socket->timer[i];
-    if (timer->timer!=NULL)
-     {
-      zlEvtTimerFree(timer->timer);
-      timer->timer=NULL;
-     }
-  }
+  zlEvtSocketTimer_t *timer;
+  timer=&socket->timer[num];
+  if (timer->timer!=NULL) // nos aseguramos que existe timer
+    zlEvtTimerDesactiva(timer->timer);
+
 }
 void zlEvtSocketTimer_cb(void *cls)
 {
@@ -246,17 +232,49 @@ LogW(9,"llega timer5\n");
 
 }
 
+
+// Esta funcion no crea los timers, solamente la estructura
+void zlEvtSocketTimersInicializa(zlEvtSocket_t *socket)
+{
+ int i;
+zlEvtSocketTimer_t *timer;
+ for (i=0;i<SERVER_BASIC_NUM_TIMERS;i++)
+  {
+    timer=&socket->timer[i];
+    memset(timer,0,sizeof(zlEvtSocketTimer_t));
+    timer->numero=i;
+    timer->socket=socket;
+    timer->timer=zlEvtTimerNuevo(socket->base,zlEvtSocketTimer_cb,timer);
+  }
+}
+
+
+
+// Libera todo sobre timers
+void zlEvtSocketTimersFree(zlEvtSocket_t *socket)
+{
+ int i;
+zlEvtSocketTimer_t *timer;
+ for (i=0;i<SERVER_BASIC_NUM_TIMERS;i++)
+  {
+    timer=&socket->timer[i];
+    if (timer->timer!=NULL) // Esto ahora es obvio puesto que estan creados al principio
+     {
+      zlEvtTimerFree(timer->timer);
+      timer->timer=NULL;
+     }
+  }
+}
+
 void zlEvtSocketTimerActiva(zlEvtSocket_t *socket,int num,int tiempo,void *tag)
 {
-zlEvtSocketTimer_t *timer=&socket->timer[num];
-timer->tag=tag;
-timer->tiempo=tiempo;
-timer->socket=socket;
-LogW(9,"Activando timer\n");
-timer->timer=zlEvtTimerNuevoActiva(
-                     socket->base
-                    ,tiempo,0
-                    ,zlEvtSocketTimer_cb,timer);
+  zlEvtSocketTimer_t *timer=&socket->timer[num];
+  timer->tag=tag;
+  timer->tiempo=tiempo;
+  timer->socket=socket;
+
+  zlEvtTimerActiva(timer->timer,tiempo,0);
+
 }
 struct sockaddr *zlEventSockaddr ( struct sockaddr_in *adr ,char * ip, int puerto )
 {

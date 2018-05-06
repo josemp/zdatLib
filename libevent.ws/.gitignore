@@ -6,8 +6,10 @@
 *.ko
 *.obj
 *.elf
+
 # log
 *.log
+
 # Linker output
 *.ilk
 *.map

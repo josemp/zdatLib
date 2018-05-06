@@ -99,3 +99,5 @@ void zlEvtSocketWriteCommand(zlEvtSocket_t *socket,char *buf,int len);
 
 
 struct sockaddr *zlEventSockaddr ( struct sockaddr_in *adr ,char * ip, int puerto );
+
+void zlEvtSocketTimerDesactiva(zlEvtSocket_t *socket,int num);
