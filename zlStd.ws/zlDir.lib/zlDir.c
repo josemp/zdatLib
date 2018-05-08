@@ -52,9 +52,9 @@ zlDir_t *zlDirFor(char *pathCarpeta,char *match)
 int ret;
 DIR *path;
 zlDir_t *zlDir;
-
+printf("pathCarpeta = <%s>\n",pathCarpeta);
 DIR *midir=opendir(pathCarpeta);
-if (midir==NULL) return(NULL);
+if (midir==NULL) {printf("null1\n");return(NULL);}
 
 zlDir=malloc(sizeof(zlDir_t));
 memset(zlDir,0,sizeof(zlDir_t));
@@ -62,12 +62,17 @@ memset(zlDir,0,sizeof(zlDir_t));
 zlDir->directorio=midir;
 sprintf(zlDir->match,"%.100s",match);
 strcpy(zlDir->path,pathCarpeta);
+/*
+printf("Leemos <%s>\n",zlDir->path);
 zlDir->directorio=opendir(zlDir->path);
 if (zlDir->directorio==NULL)
 {
+     printf("null2\n");
+     
      free(zlDir);
      return(NULL);
 }
+*/
 return(zlDir);
 }
 

@@ -36,8 +36,8 @@ int main()
 
 
 
-#define MIDIR_MAX_FILE_LEN 100
-#define MIDIR_MAX_FILE_PATH 200
+#define MIDIR_MAX_FILE_LEN 400
+#define MIDIR_MAX_FILE_PATH 400
 
 typedef enum {tipoFileNoValido = -1,tipoFileRaro = 0,tipoFileRegular=1,tipoFileCarpeta=2} tipoFile_t;
 

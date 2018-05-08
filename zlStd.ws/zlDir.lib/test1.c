@@ -13,7 +13,12 @@ int main()
 {
 
 // No hacer match==NULL, porque no es un puntero dejarlo en 0 ,""
- zlDir_t *zlDir=zlDirFor("/home/concn/pedidosLaboratorio/laboratorios/lab1/Pendientes/","*.ped");
+int num=0;
+while(1)
+{
+ printf("<%d>,",num);
+ num++;
+ zlDir_t *zlDir=zlDirFor("/home/concn/pedidosLaboratorio/laboratorios/Safa/Pendientes/","*.ped");
 
  if (zlDir==NULL)
   {printf("Error leyendo Directorio\n");return(0);}
@@ -25,7 +30,7 @@ int main()
    if (nombre==NULL) break;
     printf("Esto es <%s>\n",nombre);
   }
-
+}
  int ret= zlDirExisteRecurso("./","cosa",tipoFileCarpeta);
 
  printf("nos vamos<%d>\n",ret);
