@@ -55,7 +55,7 @@ zlBool_t zlListapUpdate(zlListap_t *lista,long pos,void *item)
 {
 if (pos>= lista->num) return(zlFalse);
 if (lista->items[pos]!=NULL) return(zlFalse);
-lista->items=realloc(lista->items,sizeof(void *)  *(pos+1));
+// no hay realloc en este caso //lista->items=realloc(lista->items,sizeof(void *)  *(pos+1));
 lista->items[pos] = item;
 lista->numActivos++;
 }
